@@ -14,7 +14,7 @@ namespace eShop.Entities
         public int TrangThaiDonHangId { get; set; }
         public DateTime NgayCapNhat { get; set; }
         public string TrangThai { get; set; }
-        public string DonHangId { get; set; } //fk
+        public int DonHangId { get; set; } //fk
         public DonHang DonHang { get; set; }
     }
 }

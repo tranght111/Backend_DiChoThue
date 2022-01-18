@@ -19,5 +19,6 @@ namespace eShop.Entities
         public DateTime NgayThanhToan { get; set; }
         public int DonHangId { get; set; } //fk
         public DonHang DonHang { get; set; }
+        public string NganHang { get; set; }
     }
 }
