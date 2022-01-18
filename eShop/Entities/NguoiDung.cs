@@ -11,7 +11,7 @@ namespace eShop.Entities
     public partial class NguoiDung
     {
        [Key]
-       public string CMND { get; set; }
+        public string CMND { get; set; }
         public string HoTen { get; set; }
         public DateTime NgayCapCMND { get; set; } //Ngày cấp CMND
         public string NoiCapCMND { get; set; } //Nơi cấp CNMD
