@@ -11,7 +11,7 @@ namespace eShop.Entities
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public int DanhGiaSanPhamId { get; set; }
+        public int IDDanhGiaSP { get; set; }
         public DateTime NgayDanhGia { get; set; }
         public string NoiDung { get; set; }
         public float Diem { get; set; }
