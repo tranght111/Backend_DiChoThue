@@ -1,54 +1,31 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using eShop.Entities;
-using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-
-
+using eShop.Entities;
 namespace eShop.Controllers
 {
-    [Route("api/product")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class SanPhamController : ControllerBase
+    public class DanhGiaDonHangController : ControllerBase
     {
-        private readonly ModelContext _context;
-
-        public SanPhamController(ModelContext context)
-        {
-            _context = context;
-        }
-
-        //GET: api/product/4
-        [HttpGet("{id}")]
-        public async Task<ActionResult<SanPham>> GetProduct(int id)
-        {
-            var hoso = await _context.SanPham.FindAsync(id);
-
-            if (hoso == null)
-            {
-                return NotFound();
-            }
-
-            return hoso;
-        }
         private readonly IConfiguration _configuration;
-        public SanPhamController(IConfiguration configuration)
+        public DanhGiaDonHangController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
         [HttpGet]
-        // GET: api/SanPham/
+        // GET: api/DanhGiaDonHang/
         public JsonResult Get()
         {
             string query = @"
-                        select * from SanPham";
+                        select * from DanhGiaDonHang";
             DataTable table = new DataTable();
             string SqlDataSource = _configuration.GetConnectionString("DefaultConnection");
             SqlDataReader myReader;
@@ -65,13 +42,13 @@ namespace eShop.Controllers
             }
             return new JsonResult(table);
         }
-        // POST api/sanpham
+        // POST api/danhgiadonhang
         [HttpPost]
-        public JsonResult Post(SanPham sp)
+        public JsonResult Post(DanhGiaDonHang dg)
         {
             string query = @"
-                        insert into SanPham ( TenSP, GiaSP, DonViTinh, MoTa, SoLuongTon, LoaiSanPhamIDLoaiSP) 
-                        values (@TenSP, @GiaSP, @DonViTinh, @MoTa, @SoLuongTon, @LoaiSanPhamId)";
+                        insert into DanhGiaDonHang (NoiDung, Diem, DonHangId, NgayDanhGia) 
+                        values (@nd, @diem, @donhangid, getdate())";
             DataTable table = new DataTable();
             string SqlDataSource = _configuration.GetConnectionString("DefaultConnection");
             SqlDataReader myReader;
@@ -80,12 +57,9 @@ namespace eShop.Controllers
                 myConn.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myConn))
                 {
-                    myCommand.Parameters.AddWithValue("@TenSP", sp.TenSP);
-                    myCommand.Parameters.AddWithValue("@GiaSP", sp.GiaSP);
-                    myCommand.Parameters.AddWithValue("@DonViTinh", sp.DonViTinh);
-                    myCommand.Parameters.AddWithValue("@MoTa", sp.MoTa);
-                    myCommand.Parameters.AddWithValue("@SoLuongTon", sp.SoLuongTon);
-                    myCommand.Parameters.AddWithValue("@LoaiSanPhamId", sp.LoaiSanPhamId);
+                    myCommand.Parameters.AddWithValue("@nd", dg.NoiDung);
+                    myCommand.Parameters.AddWithValue("@diem", dg.Diem);
+                    myCommand.Parameters.AddWithValue("@donhangid", dg.DonHangId);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
