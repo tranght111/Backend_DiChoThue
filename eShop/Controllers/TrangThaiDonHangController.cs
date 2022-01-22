@@ -28,7 +28,7 @@ namespace eShop.Controllers
 
             if (idOrder != null)
             {
-                list = _context.TrangThaiDonHang.Where<TrangThaiDonHang>(i => i.TrangThaiDonHangId == idOrder);
+                list = _context.TrangThaiDonHang.Where<TrangThaiDonHang>(i => i.IdTrangThai == idOrder);
             }
 
             if (all == false)

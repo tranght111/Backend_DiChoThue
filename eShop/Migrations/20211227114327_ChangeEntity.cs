@@ -223,7 +223,7 @@ namespace eShop.Migrations
                 oldNullable: true);
 
             migrationBuilder.AddColumn<int>(
-                name: "LoaiSanPhamId",
+                name: "IDLoaiSP",
                 table: "SanPham",
                 nullable: false,
                 defaultValue: 0);

@@ -18,7 +18,7 @@ namespace eShop.Entities
         public string MoTa { get; set; }
         public int SoLuongTon { get; set; }
         public float DiemTB { get; set; }
-        public int LoaiSanPhamId { get; set; }
+        public int LoaiSanPhamIDLoaiSP { get; set; }
         public LoaiSanPham LoaiSanPham { get; set; }
         public int NguoiBanId { get; set; }
         public NguoiBan NguoiBan { get; set; }

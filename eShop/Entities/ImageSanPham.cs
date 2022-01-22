@@ -11,7 +11,7 @@ namespace eShop.Entities
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public int ImageSanPhamId { get; set; }
+        public int IDImageSP { get; set; }
         public string NameImageSP { get; set; }
         public string UrlImage { get; set; }
         public int SanPhamId { get; set; } //fk
