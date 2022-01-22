@@ -17,26 +17,6 @@ namespace eShop.Controllers
     [ApiController]
     public class SanPhamController : ControllerBase
     {
-        private readonly ModelContext _context;
-
-        public SanPhamController(ModelContext context)
-        {
-            _context = context;
-        }
-
-        //GET: api/product/4
-        [HttpGet("{id}")]
-        public async Task<ActionResult<SanPham>> GetProduct(int id)
-        {
-            var hoso = await _context.SanPham.FindAsync(id);
-
-            if (hoso == null)
-            {
-                return NotFound();
-            }
-
-            return hoso;
-        }
         private readonly IConfiguration _configuration;
         public SanPhamController(IConfiguration configuration)
         {
@@ -44,7 +24,7 @@ namespace eShop.Controllers
         }
 
         [HttpGet]
-        // GET: api/SanPham/
+        // GET: api/product
         public JsonResult Get()
         {
             string query = @"
@@ -65,7 +45,7 @@ namespace eShop.Controllers
             }
             return new JsonResult(table);
         }
-        // POST api/sanpham
+        // POST api/product
         [HttpPost]
         public JsonResult Post(SanPham sp)
         {

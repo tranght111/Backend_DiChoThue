@@ -6,38 +6,45 @@ using System.Linq;
 using System.Threading.Tasks;
 using eShop.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using System.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 
 namespace eShop.Controllers
 {
-    [Route("api/productimage")]
+    [Route("api/productimage/url")]
     [ApiController]
     public class ImageSanPhamController : ControllerBase
     {
-        private readonly ModelContext _context;
-
-        public ImageSanPhamController(ModelContext context)
+        private readonly IConfiguration _configuration;
+        public ImageSanPhamController(IConfiguration configuration)
         {
-            _context = context;
+            _configuration = configuration;
         }
 
-        //GET: api/productimage?idsp=4&take=1
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ImageSanPham>>> GetProductImageList(int? idsp, int? take)
+        // GET: api/productimage
+        public JsonResult Get()
         {
-            var list = _context.ImageSanPham.AsQueryable();
-
-            if (idsp != null)
+            string query = @"
+                        select UrlImage from ImageSanPham";
+            DataTable table = new DataTable();
+            string SqlDataSource = _configuration.GetConnectionString("DefaultConnection");
+            SqlDataReader myReader;
+            using (SqlConnection myConn = new SqlConnection(SqlDataSource))
             {
-                list = _context.ImageSanPham.Where<ImageSanPham>(i => i.ImageSanPhamId == idsp);
+                myConn.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myConn))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myConn.Close();
+                }
             }
-
-            if (take != null)
-            {
-                list = list.Take((int)take);
-            }
-
-            return await list.ToListAsync();
+            return new JsonResult(table);
         }
+        
     }
 }

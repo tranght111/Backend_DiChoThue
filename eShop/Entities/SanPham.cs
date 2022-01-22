@@ -13,6 +13,7 @@ namespace eShop.Entities
         [Key]
         public int SanPhamId { get; set; }
         public string TenSP { get; set; }
+        public string HinhAnh { get; set; }
         public float GiaSP { get; set; }
         public string DonViTinh { get; set; }
         public string MoTa { get; set; }
