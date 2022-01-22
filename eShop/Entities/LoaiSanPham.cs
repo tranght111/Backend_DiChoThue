@@ -11,7 +11,7 @@ namespace eShop.Entities
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public int LoaiSanPhamId { get; set; }
+        public int IDLoaiSP { get; set; }
         public string TenLoaiSP { get; set; } //fk
         public List<SanPham> SanPhams { get; set; }
     }
