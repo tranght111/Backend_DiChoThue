@@ -65,7 +65,7 @@ namespace eShop.Controllers
                     myCommand.Parameters.AddWithValue("@DonViTinh", sp.DonViTinh);
                     myCommand.Parameters.AddWithValue("@MoTa", sp.MoTa);
                     myCommand.Parameters.AddWithValue("@SoLuongTon", sp.SoLuongTon);
-                    myCommand.Parameters.AddWithValue("@LoaiSanPhamId", sp.LoaiSanPhamId);
+                    myCommand.Parameters.AddWithValue("@LoaiSanPhamId", sp.LoaiSanPhamIDLoaiSP);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
