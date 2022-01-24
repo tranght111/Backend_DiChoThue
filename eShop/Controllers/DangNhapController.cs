@@ -16,7 +16,6 @@ namespace eShop.Controllers
     public class DangNhapController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        string query;
         public DangNhapController(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -27,7 +26,7 @@ namespace eShop.Controllers
         public JsonResult Get(NguoiDung ngd)
         {
             string query = @"
-                        select dbo.DangNhap (@username, @password)";
+                        select CMND, Vaitro from [dbo].[DangNhap] (@username, @password)";
             DataTable table = new DataTable();
             string SqlDataSource = _configuration.GetConnectionString("DefaultConnection");
             SqlDataReader myReader;
