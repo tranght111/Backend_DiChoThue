@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace eShop.Entities
 {
-    public class ThamSoTimKiem
+
+public class ThamSoTimKiem
     {
         public string TenSanPham { set; get; }
         public string LoaiSanPham { set; get; }
