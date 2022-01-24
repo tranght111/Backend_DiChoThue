@@ -24,6 +24,6 @@ namespace eShop.Entities
         public DanhGiaDonHang DanhGiaDonHang { get; set; }
         public ThanhToan ThanhToan { get; set; }
         public List<TrangThaiDonHang> TrangThaiDonHangs { get; set; }
-        public ChiTietDonHang chitietdh { get; set; }
+        //public ChiTietDonHang chitietdh { get; set; }
     }
 }
