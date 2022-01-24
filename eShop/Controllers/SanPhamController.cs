@@ -46,29 +46,29 @@ namespace eShop.Controllers
             return new JsonResult(table);
         }
 
-        // GET: api/product/{id}
-        [HttpGet("{id}")]
-        public JsonResult Get(int id)
-        {
-            string query = @"
-                        select * from SanPham where SanPhamId = @id";
-            DataTable table = new DataTable();
-            string SqlDataSource = _configuration.GetConnectionString("DefaultConnection");
-            SqlDataReader myReader;
-            using (SqlConnection myConn = new SqlConnection(SqlDataSource))
-            {
-                myConn.Open();
-                using (SqlCommand myCommand = new SqlCommand(query, myConn))
-                {
-                    myCommand.Parameters.AddWithValue("@id", id);
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myConn.Close();
-                }
-            }
-            return new JsonResult(table);
-        }
+        //// GET: api/product/{id}
+        //[HttpGet("{id}")]
+        //public JsonResult Get(int id)
+        //{
+        //    string query = @"
+        //                select * from SanPham where SanPhamId = @id";
+        //    DataTable table = new DataTable();
+        //    string SqlDataSource = _configuration.GetConnectionString("DefaultConnection");
+        //    SqlDataReader myReader;
+        //    using (SqlConnection myConn = new SqlConnection(SqlDataSource))
+        //    {
+        //        myConn.Open();
+        //        using (SqlCommand myCommand = new SqlCommand(query, myConn))
+        //        {
+        //            myCommand.Parameters.AddWithValue("@id", id);
+        //            myReader = myCommand.ExecuteReader();
+        //            table.Load(myReader);
+        //            myReader.Close();
+        //            myConn.Close();
+        //        }
+        //    }
+        //    return new JsonResult(table);
+        //}
 
         // POST api/product
         [HttpPost]
@@ -162,6 +162,30 @@ namespace eShop.Controllers
                 }
             }
             return new JsonResult("success");
+        }
+        //GET: api sản phẩm theo id người bán
+        // GET: api/product/{id}
+        [HttpGet("{id}")]
+        public JsonResult Get(int id)
+        {
+            string query = @"
+                        select * from SanPham where NguoiBanId = @id";
+            DataTable table = new DataTable();
+            string SqlDataSource = _configuration.GetConnectionString("DefaultConnection");
+            SqlDataReader myReader;
+            using (SqlConnection myConn = new SqlConnection(SqlDataSource))
+            {
+                myConn.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myConn))
+                {
+                    myCommand.Parameters.AddWithValue("@id", id);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myConn.Close();
+                }
+            }
+            return new JsonResult(table);
         }
     }
 }
