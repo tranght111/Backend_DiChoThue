@@ -13,12 +13,14 @@ namespace eShop.Entities
         [Key]
         public int SanPhamId { get; set; }
         public string TenSP { get; set; }
+        public string HinhAnh { get; set; }
         public float GiaSP { get; set; }
         public string DonViTinh { get; set; }
         public string MoTa { get; set; }
         public int SoLuongTon { get; set; }
         public float DiemTB { get; set; }
         public int LoaiSanPhamIDLoaiSP { get; set; }
+        public string TrangThai { get; set; }
         public LoaiSanPham LoaiSanPham { get; set; }
         public int NguoiBanId { get; set; }
         public NguoiBan NguoiBan { get; set; }
