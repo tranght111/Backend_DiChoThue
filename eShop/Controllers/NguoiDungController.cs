@@ -18,14 +18,12 @@ namespace eShop.Controllers
         private readonly IConfiguration _configuration;
         private readonly ModelContext _context;
 
-        public NguoiDungController(IConfiguration configuration)
+        public NguoiDungController(IConfiguration configuration, ModelContext context)
         {
             _configuration = configuration;
-        }
-        /*public NguoiDungController(ModelContext context)
-        {
             _context = context;
-        }*/
+        }
+        
         //GET: api/NguoiDung
         [HttpGet]
         /*public IEnumerable<NguoiDung> Get()
@@ -106,6 +104,17 @@ namespace eShop.Controllers
                 }
             }
             return new JsonResult("success");
+        }
+
+        //Post: api/NguoiDung
+        [HttpPost]
+        public async Task<ActionResult<NguoiDungController>> AddUser(NguoiDung user)
+        {
+
+            _context.NguoiDung.Add(user);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("Get", new { id = user.CMND }, user);
         }
     }
 }
