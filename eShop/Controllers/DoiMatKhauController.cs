@@ -15,6 +15,7 @@ namespace eShop.Controllers
     public class DoiMatKhauController : ControllerBase
     {
         private readonly IConfiguration _configuration;
+
         public DoiMatKhauController(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -43,5 +44,4 @@ namespace eShop.Controllers
             }
             return new JsonResult("success");
         }
-    }
 }
