@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using eShop.Entities;
 
 namespace eShop.Controllers
 {
@@ -15,9 +16,11 @@ namespace eShop.Controllers
     public class ShipperController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        public ShipperController(IConfiguration configuration)
+        private readonly ModelContext _context;
+        public ShipperController(IConfiguration configuration, ModelContext context)
         {
             _configuration = configuration;
+            _context = context;
         }
 
         [HttpGet]
@@ -41,6 +44,17 @@ namespace eShop.Controllers
                 }
             }
             return new JsonResult(table);
+        }
+
+        //Post: api/Shipper
+        [HttpPost]
+        public async Task<ActionResult<ShipperController>> AddUser(Shipper shipper)
+        {
+
+            _context.Shipper.Add(shipper);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("Get", new { id = shipper.CMND }, shipper);
         }
     }
 }

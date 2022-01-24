@@ -27,9 +27,16 @@ namespace eShop.Controllers
 
         //GET: api/DKShipper
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<HoSoDangKyShipper>>> GetDSHoSo()
+        public async Task<ActionResult<IEnumerable<HoSoDangKyShipper>>> GetDSHoSo(string? status)
         {
-            return await _context.HoSoDangKyShipper.ToListAsync();
+            var list = _context.HoSoDangKyShipper.AsQueryable();
+
+            if (status != null)
+            {
+                list = _context.HoSoDangKyShipper.Where<HoSoDangKyShipper>(i => i.TrangThai == status || i.TrangThai == "-" + status);
+            }
+
+            return await list.ToListAsync();
         }
 
         //GET: api/DKShipper/5
@@ -55,6 +62,40 @@ namespace eShop.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetHoSoDKShipper", new { id = hoso.HoSoDangKyShipperId }, hoso);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> putHoSo(int id, HoSoDangKyShipper hoso)
+        {
+            if (id != hoso.HoSoDangKyShipperId)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(hoso).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!HoSoDKShipper_Exists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return new JsonResult("Cập nhật thành công!");
+        }
+
+        private bool HoSoDKShipper_Exists(int id)
+        {
+            return _context.HoSoDangKyShipper.Any(e => e.HoSoDangKyShipperId == id);
         }
 
 

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using eShop.Entities;
 
 namespace eShop.Controllers
 {
@@ -15,9 +16,12 @@ namespace eShop.Controllers
     public class NguoiBanController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        public NguoiBanController(IConfiguration configuration)
+        private readonly ModelContext _context;
+
+        public NguoiBanController(IConfiguration configuration, ModelContext context)
         {
             _configuration = configuration;
+            _context = context;
         }
 
         [HttpGet]
@@ -41,6 +45,17 @@ namespace eShop.Controllers
                 }
             }
             return new JsonResult(table);
+        }
+
+        //Post: api/NguoiBan
+        [HttpPost]
+        public async Task<ActionResult<NguoiBanController>> AddUser(NguoiBan seller)
+        {
+
+            _context.NguoiBan.Add(seller);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("Get", new { id = seller.CMND }, seller);
         }
     }
 }
