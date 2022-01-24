@@ -17,7 +17,7 @@ namespace eShop.Entities
         public HoSoDangKyBanHang HoSoDangKyBanHang { get; set; }
 
         [ForeignKey("NguoiDung")]
-        public string CMND { get; set; }//fk
+        public string CMNND { get; set; }//fk
         public NguoiDung NguoiDung { get; set; }
         public List<SanPham> SanPhams { get; set; }
         public List<DoanhThuNguoiBan> DoanhThuNguoiBans { get; set; }
