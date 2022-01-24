@@ -55,7 +55,14 @@ namespace eShop.Controllers
                 }
                 if (trangThai != null)
                 {
-                    dh.TrangThaiDonHangs.Clear();
+                    if (dh.TrangThaiDonHangs != null)
+                    {
+                        dh.TrangThaiDonHangs?.Clear();
+                    } else
+                    {
+                        dh.TrangThaiDonHangs = new List<TrangThaiDonHang>();
+                    }
+                    
                     dh.TrangThaiDonHangs.Add(trangThai);
                 }
                     

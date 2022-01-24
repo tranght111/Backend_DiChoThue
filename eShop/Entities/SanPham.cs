@@ -25,7 +25,7 @@ namespace eShop.Entities
         public List<ChiTietDonHang> ChiTietDonHangs { get; set; }
         public List<ChiTietGioHang> ChiTietGioHang { get; set; }
         public List<ImageSanPham> ImageSanPhams { get; set; }
-        public string masanpham { get; internal set; }
-        public string maloaisanpham { get; internal set; }
+        //public string masanpham { get; internal set; } 
+        //public string maloaisanpham { get; internal set; }
     }
 }
