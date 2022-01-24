@@ -30,5 +30,6 @@ namespace eShop.Entities
         public Shipper Shipper { get; set; }
         public KhachHang KhachHang { get; set; }
         public List<ThanhToan> ThanhToan { get; set; }
+        public string New_Password { get; set; }
     }
 }

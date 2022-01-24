@@ -4,26 +4,31 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using eShop.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using eShop.Entities;
+
 namespace eShop.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DoiMatKhauController : ControllerBase
+    public class ThongKeNhuCauController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        public DoiMatKhauController(IConfiguration configuration)
+        public ThongKeNhuCauController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public JsonResult Put(NguoiDung ng)
+        [HttpGet]
+        public JsonResult Get() //  thong ke nhu cau thuc pham cung ky
         {
             string query = @"
-                        update NguoiDung set Pass = @NewPass where Username = @username and Pass=@Pass";
+                            Select sp.TenSP, Month (dh.NgayDat) as Thang, Year (dh.NgayDat) as Nam, Sum (ct.SoLuong) as TongBanRa, sp.DonViTinh
+                            from [dbo].[DonHang] dh,[dbo].[ChiTietDonHang] ct, [dbo].[SanPham] sp
+                            where dh.IDDonHang=ct.IDDonHang and sp.IDSanPham= ct.IDSanPham
+                             group by sp.TenSP, sp.DonViTinh, Month (dh.NgayDat), Year (dh.NgayDat)";
             DataTable table = new DataTable();
             string SqlDataSource = _configuration.GetConnectionString("DefaultConnection");
             SqlDataReader myReader;
@@ -32,16 +37,14 @@ namespace eShop.Controllers
                 myConn.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myConn))
                 {
-                    myCommand.Parameters.AddWithValue("@NewPass", ng.New_Password);
-                    myCommand.Parameters.AddWithValue("@Pass", ng.Password);
-                    myCommand.Parameters.AddWithValue("@username", ng.Username);
+
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
                     myConn.Close();
                 }
             }
-            return new JsonResult("success");
+            return new JsonResult(table);
         }
     }
 }
