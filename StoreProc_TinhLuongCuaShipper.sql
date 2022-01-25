@@ -1,4 +1,4 @@
-Create proc TinhLuongShipper
+Alter proc TinhLuongShipper
 (@IDShipper int, @Thang int, @Nam int)
 AS 
 BEGIN
@@ -14,8 +14,10 @@ if(@SoDonHang>600)
 else
 	Set @TongLuong=@SoDonHang*15000;
 	
-insert into [dbo].[LuongShipper] (Thang, Nam, TongLuong, TrangThai, NgayNhan, IDShipper)
- values (@Thang,@Nam,@TongLuong,Null, Null,@IDShipper)
+if(NOT EXISTS( Select* from[dbo].[LuongShipper] 
+				where IDShipper= @IDShipper and Nam=@Nam and Thang=@Thang))
+	insert into [dbo].[LuongShipper] (Thang, Nam, TongLuong, TrangThai, NgayNhan, IDShipper)
+	values (@Thang,@Nam,@TongLuong,Null, Null,@IDShipper);
 
  Select ng.HoTen, l.Thang, l.Nam, l.TongLuong from [dbo].[LuongShipper] l, [dbo].[Shipper] s, [dbo].[NguoiDung] ng
  where l.IDShipper=s.IDShipper and s.IDShipper=@IDShipper and s.CMND=ng.CMND
