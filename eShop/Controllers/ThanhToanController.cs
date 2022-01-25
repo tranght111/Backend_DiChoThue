@@ -27,9 +27,13 @@ namespace eShop.Controllers
         {
             string query = @"
                         insert into ThanhToan(NguoiDungCMND, STK, NgayThanhToan, DonHangId, NganHang) values(@cmnd, @stk, getdate(), @donhang, @nganhang)";
+            string query2 = @"
+                        insert into TrangThaiDonHang(NgayCapNhat, TrangThai,DonHangId) values(getdate(), N'Đã xác nhận',  @donhang)";
             DataTable table = new DataTable();
+            DataTable table2 = new DataTable();
             string SqlDataSource = _configuration.GetConnectionString("DefaultConnection");
             SqlDataReader myReader;
+            SqlDataReader myReader2;
             using (SqlConnection myConn = new SqlConnection(SqlDataSource))
             {
                 myConn.Open();
@@ -41,6 +45,14 @@ namespace eShop.Controllers
                     myCommand.Parameters.AddWithValue("@nganhang", t.NganHang);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
+                    //myReader.Close();
+                    //myConn.Close();
+                }
+                using (SqlCommand myCommand2 = new SqlCommand(query2, myConn))
+                {
+                    myCommand2.Parameters.AddWithValue("@donhang", t.DonHangId);
+                    myReader = myCommand2.ExecuteReader();
+                    table2.Load(myReader);
                     myReader.Close();
                     myConn.Close();
                 }

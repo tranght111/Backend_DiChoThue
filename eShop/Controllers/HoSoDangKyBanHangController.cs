@@ -28,9 +28,16 @@ namespace eShop.Controllers
 
         //GET: api/DKBH
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<HoSoDangKyBanHang>>> GetDSHoSo()
+        public async Task<ActionResult<IEnumerable<HoSoDangKyBanHang>>> GetDSHoSo(string? status)
         {
-            return await _context.HoSoDangKyBanHang.ToListAsync();
+            var list = _context.HoSoDangKyBanHang.AsQueryable();
+
+            if (status != null)
+            {
+                list = _context.HoSoDangKyBanHang.Where<HoSoDangKyBanHang>(i => i.TrangThai == status || i.TrangThai == "-"+status);
+            }
+
+            return await list.ToListAsync();
         }
 
         //GET: api/DKBH/5
@@ -56,6 +63,40 @@ namespace eShop.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetHoSoDKBH", new { id = hoso.HoSoDangKyBanHangId }, hoso);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> putHoSo(int id, HoSoDangKyBanHang hoso)
+        {
+            if (id != hoso.HoSoDangKyBanHangId)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(hoso).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!HoSoDKBH_Exists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return new JsonResult("Cập nhật thành công!");
+        }
+
+        private bool HoSoDKBH_Exists(int id)
+        {
+            return _context.HoSoDangKyBanHang.Any(e => e.HoSoDangKyBanHangId == id);
         }
 
 
