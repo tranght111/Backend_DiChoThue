@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -26,7 +26,7 @@ namespace eShop.Controllers
         public JsonResult Get(NguoiDung ngd)
         {
             string query = @"
-                        select CMND, Vaitro from [dbo].[DangNhap] (@username, @password)";
+                        select CMND, Vaitro, IDnguoiDung from [dbo].[DangNhap] (@username, @password)";
             DataTable table = new DataTable();
             string SqlDataSource = _configuration.GetConnectionString("DefaultConnection");
             SqlDataReader myReader;
@@ -44,7 +44,8 @@ namespace eShop.Controllers
                     myConn.Close();
                 }
             }
-            return new JsonResult(table);
+            ngd.Usertable = table; //Luu thong tin nguoi dang nhap trong bien toan cuc Usertable----Biến nằm trong class NguoiDung
+            return new JsonResult(ngd.Usertable);
         }
     }
 }
