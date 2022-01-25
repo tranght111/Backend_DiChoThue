@@ -1,30 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using eShop.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using eShop.Entities;
+
 namespace eShop.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DoiMatKhauController : ControllerBase
+    public class ChinhSuaHoSoController : ControllerBase
     {
         private readonly IConfiguration _configuration;
+        private readonly ModelContext _context;
 
-        public DoiMatKhauController(IConfiguration configuration)
+        public ChinhSuaHoSoController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
+        //Update basic information
+        [HttpPut]
         public JsonResult Put(NguoiDung ng)
         {
             string query = @"
-                        update NguoiDung set Pass = @NewPass where Username = @username and Pass=@Pass";
+                        update dbo.[User] set DiaChi=@address, Email=@mail, SoDienThoai=@sdt, NgaySinh=@dob, GioiTinh=@gender, CapDoVung=@capdovung
+                        where CMND=@cmnd";
             DataTable table = new DataTable();
             string SqlDataSource = _configuration.GetConnectionString("DefaultConnection");
             SqlDataReader myReader;
@@ -33,9 +38,13 @@ namespace eShop.Controllers
                 myConn.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myConn))
                 {
-                    myCommand.Parameters.AddWithValue("@NewPass", ng.New_Password);
-                    myCommand.Parameters.AddWithValue("@Pass", ng.Password);
-                    myCommand.Parameters.AddWithValue("@username", ng.Username);
+                    myCommand.Parameters.AddWithValue("@address", ng.DiaChi);
+                    myCommand.Parameters.AddWithValue("@mail", ng.Email);
+                    myCommand.Parameters.AddWithValue("@sdt", ng.SoDienThoai);
+                    myCommand.Parameters.AddWithValue("@dob", ng.NgaySinh);
+                    myCommand.Parameters.AddWithValue("@gender", ng.GioiTinh);
+                    myCommand.Parameters.AddWithValue("@capdovung", ng.CapDoVung);
+                    myCommand.Parameters.AddWithValue("@cmnd", ng.CMND);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
