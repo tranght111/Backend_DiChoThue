@@ -116,5 +116,34 @@ namespace eShop.Controllers
 
             return CreatedAtAction("Get", new { id = user.CMND }, user);
         }
+
+        // Insert a customer 
+        [HttpPost]
+        public JsonResult Post(NguoiDung ng)
+        {
+            string query = @"exec DangKyTaiKhoan @name, @cmnd, @ngaycap, @noicap, @sdt, @username, @pw";
+            DataTable table = new DataTable();
+            string SqlDataSource = _configuration.GetConnectionString("DefaultConnection");
+            SqlDataReader myReader;
+            using (SqlConnection myConn = new SqlConnection(SqlDataSource))
+            {
+                myConn.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myConn))
+                {
+                    myCommand.Parameters.AddWithValue("@name", ng.HoTen);
+                    myCommand.Parameters.AddWithValue("@cmnd", ng.CMND);
+                    myCommand.Parameters.AddWithValue("@ngaycap", ng.NgayCapCMND);
+                    myCommand.Parameters.AddWithValue("@noicap", ng.NoiCapCMND);
+                    myCommand.Parameters.AddWithValue("@sdt", ng.SoDienThoai);
+                    myCommand.Parameters.AddWithValue("@username", ng.Username);
+                    myCommand.Parameters.AddWithValue("@pw", ng.Password);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myConn.Close();
+                }
+            }
+            return new JsonResult("success");
+        }
     }
 }
