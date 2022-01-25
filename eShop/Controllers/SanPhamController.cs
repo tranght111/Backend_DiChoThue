@@ -135,6 +135,28 @@ namespace eShop.Controllers
             }
             return new JsonResult("success");
         }
+        //Update trang thai san pham
+        [HttpGet("delete/{id}")]
+        public JsonResult deleteproduct(int id)
+        {
+            string query = @"update dbo.[SanPham] set TrangThai = N'Nghỉ bán' where SanPhamId=@id ";
+            DataTable table = new DataTable();
+            string SqlDataSource = _configuration.GetConnectionString("DefaultConnection");
+            SqlDataReader myReader;
+            using (SqlConnection myConn = new SqlConnection(SqlDataSource))
+            {
+                myConn.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myConn))
+                {
+                    myCommand.Parameters.AddWithValue("@id", id);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myConn.Close();
+                }
+            }
+            return new JsonResult("success");
+        }
 
         // DELETE: api/product/3
         [HttpDelete("{id}")]

@@ -13,7 +13,7 @@ namespace eShop.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TrangThaiCuoiCungDonHangController : Controller
+    public class TrangThaiCuoiCungDonHangController : ControllerBase
     {
         private readonly IConfiguration _configuration;
         public TrangThaiCuoiCungDonHangController(IConfiguration configuration)
