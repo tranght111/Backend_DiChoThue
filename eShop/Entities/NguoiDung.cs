@@ -1,9 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace eShop.Entities
 {
@@ -31,5 +33,6 @@ namespace eShop.Entities
         public KhachHang KhachHang { get; set; }
         public List<ThanhToan> ThanhToan { get; set; }
         public string New_Password { get; set; }
+        public DataTable Usertable { set; get; }
     }
 }
